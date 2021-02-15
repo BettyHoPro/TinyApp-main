@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/BettyHoPro/TinyApp-main/issues"
   },
-  "homepage": "https://github.com/BettyHoPro/TinyApp-main#readme"
+  "homepage": "https://github.com/BettyHoPro/TinyApp-main#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  }
 }
