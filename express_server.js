@@ -55,6 +55,9 @@ app.get('/urls/:shortURL', (req, res) => {
 
 app.get('/u/:shortURL', (req, res) => {
   const longURL = urlDatabase[req.params.shortURL];
+  if (!Object.keys(urlDatabase).includes(req.params.shortURL)) {
+    res.render('urls_error');
+  }
   res.redirect(longURL);
 });
 
