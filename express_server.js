@@ -45,6 +45,11 @@ app.get('/urls/new', (req, res) => {
 
 app.get('/urls/:shortURL', (req, res) => {
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
+  if (!Object.keys(urlDatabase).includes(req.params.shortURL)) {
+    //const errorCode = 404;
+    //res.sendStatus(404);
+    res.render('urls_error');
+  }
   res.render('urls_show', templateVars);
 });
 
