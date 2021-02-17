@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - TinyApp</title>
+    <style>
+      .btn_submit_show {
+        padding: 6px 18px;
+        color: white;
+        background-color: #457afa;
+        border: 2px #457afa solid;
+        border-radius: 5px;
+      }
+      .input_textfield_register {
+        width: 250px; 
+        margin-right: 0.5em; 
+        padding: 6px;
+        border:2px #457afa solid;
+        border-radius:5px;
+      }
+      .btn_submit_show {
+      width: 250px; 
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('partials/_header') %>
+    <div class="card text-center">
+      <div class="card-header"></div>
+      <div class="card-body">
+
+          <h3>Register</h3>
+      
+          <form method="POST" action="/register">
+            <p>
+              User Email :&#160<input type="email" name="email" placeholder="Fill out email" class="input_textfield_register"/>
+            </p>
+            <p>
+             Password :&#160&#160&#160<input type="password" name="password" placeholder="Fill out password" class="input_textfield_register"/>
+            </p>
+            <p>
+              &#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160&#160<button type="Submit" class="btn_submit_show">Register</button>
+            </p>
+          </form>
+      </div>
+
+      <div class="card-footer text-muted"></div>
+    </div>
+
+    <!-- Bootstrap --> 
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

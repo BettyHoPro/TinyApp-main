@@ -47,6 +47,11 @@ app.post('/logout', (req, res) => {
   res.clearCookie("username", req.body.username);
   res.redirect('/urls');
 });
+
+// app.post('/register', (req, res) => {
+//   res.cookie("username", req.body.username);
+//   res.redirect('/urls');
+// });
 // ==== get ==== //
 app.get('/', (req, res) => {
   res.send('Hello!');
@@ -84,6 +89,11 @@ app.get('/u/:shortURL', (req, res) => {
     res.render('urls_error');
   }
   res.redirect(longURL);
+});
+
+app.get("/register", (req, res) => {
+  const templateVars = { username: req.cookies["username"]};
+  res.render('register', templateVars);
 });
 
 app.get('/urls.json',  (req, res) => {
