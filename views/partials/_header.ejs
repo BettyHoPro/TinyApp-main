@@ -23,18 +23,23 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
+        <tr>
+          <td>
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
+       </td>
       </div>
-      <div>
-          <tr> 
-            <form action="/login" method="POST">
-              <input type="text" name="username" placeholder="Please fill out user name">
-              <button type="Submit" class="btn_login_header" >Sign in</button>
-            </form>
-          </tr>
-
+      <div style="margin-left: 37.7em;">
+        <td >
+          <form action="/login" method="POST">
+            <input type="text" name="username" placeholder="fill username" style="width: 120px; margin-right: 0.5em; padding-left: 0.5em">
+            <button type="Submit" class="btn_login_header" >Sign in</button>
+          </form>
+        </td>
+        </tr>
       </div>
+  
+    
     </div>
   </nav>
 </header>
