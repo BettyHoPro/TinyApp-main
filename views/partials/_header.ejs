@@ -43,9 +43,9 @@ justify-content: space-between;
       </div>
       <div class="div_rightCorner_header" >
         <td >
-         <% if(username) { %>
+         <% if(user) { %>
           <form action="/logout" method="POST">
-            Logged In As: <%= username %> !&#160&#160<button type="submit" class="btn_login_header" >Logout</button>
+            Logged In As: <%= user.email %> !&#160&#160<button type="submit" class="btn_login_header" >Logout</button>
           </form>
         <% } else { %>
           <form action="/login" method="POST">
