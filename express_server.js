@@ -7,7 +7,7 @@ const PORT = 8080;
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.set('view engine', 'ejs');
-
+app.use(express.static(__dirname + '/public'));
 // === database === //
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -64,14 +64,16 @@ app.get('/urls', (req, res) => {
 app.get('/urls/new', (req, res) => {
   const templateVars = { username: req.cookies["username"]};
   res.render("urls_new", templateVars);
+ 
+  //res.render("urls_new");
 });
 
 app.get('/urls/:shortURL', (req, res) => {
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], username: req.cookies["username"]};
   if (!Object.keys(urlDatabase).includes(req.params.shortURL)) {
     //const errorCode = 404;
-    //res.sendStatus(404);
-    res.render('urls_error');
+    res.sendStatus(404);
+    // res.render('urls_error');
   }
   res.render('urls_show', templateVars);
 });
