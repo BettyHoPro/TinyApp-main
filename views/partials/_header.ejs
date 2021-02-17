@@ -7,19 +7,20 @@
     border-radius:5px;
   }
   .input_username_header {
-    width: 150px; 
+    width: 200px; 
     margin-right: 0.5em; 
     padding: 6px;
     border:2px #63a54e solid;
     border-radius:5px;
   }
   .textblog_username_header{
-    width: 150px; 
+    width: 200px; 
     margin-right: 0.5em; 
     padding: 6px;
   }
   .div_rightCorner_header {
-    margin-left: 60%;
+    position:absolute;
+    margin-left: 67%;
     vertical-align:right;
   }
 </style>
@@ -48,12 +49,9 @@
       <div class="div_rightCorner_header" >
         <td >
          <% if(username) { %>
-            <td>
-            <p class="textblog_username_header">Logged In As: <%= username %> !</p>
-            </td>
-            <td>
-            <button type="button" class="btn_login_header" >Logout</button>
-            </td>
+          <form action="/logout" method="POST">
+            Logged In As: <%= username %> !&#160&#160<button type="submit" class="btn_login_header" >Logout</button>
+          </form>
         <% } else { %>
           <form action="/login" method="POST">
             <input type="text" name="username" placeholder="User Name" class="input_username_header">
