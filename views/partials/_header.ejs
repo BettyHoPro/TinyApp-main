@@ -1,10 +1,20 @@
 <style>
-  .btn_login_header{
+  .btn_login_header {
     padding: 6px 18px;
-    color:white;
-    background-color:#457afa;
-    border:2px #457afa solid;
+    color:#222222;
+    background-color:transparent;
+    border:2px #222222 solid;
     border-radius:5px;
+  }
+  .input_username_header {
+    width: 120px; 
+    margin-right: 0.5em; 
+    padding: 6px;
+    border:2px #63a54e solid;
+    border-radius:5px;
+  }
+  .div_rightCorner_header {
+    margin-left: 37.7em;
   }
 </style>
 <header>
@@ -29,11 +39,11 @@
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
        </td>
       </div>
-      <div style="margin-left: 37.7em;">
+      <div class="div_rightCorner_header" >
         <td >
           <form action="/login" method="POST">
-            <input type="text" name="username" placeholder="fill username" style="width: 120px; margin-right: 0.5em; padding-left: 0.5em">
-            <button type="Submit" class="btn_login_header" >Sign in</button>
+            <input type="text" name="username" placeholder="User Name" class="input_username_header">
+            <button type="Submit" class="btn_login_header" >Login</button>
           </form>
         </td>
         </tr>
