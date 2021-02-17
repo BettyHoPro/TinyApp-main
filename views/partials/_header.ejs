@@ -49,7 +49,8 @@ justify-content: space-between;
           </form>
         <% } else { %>
           <form action="/login" method="POST">
-            <input type="text" name="username" placeholder="User Name" class="input_username_header">
+            <input type="email" name="email" placeholder="Fill your email" class="input_username_header">
+            <input type="password" name="password" placeholder="Fill your password" class="input_username_header">
             <button type="Submit" class="btn_login_header" >Login</button>
           </form>
         <% } %>

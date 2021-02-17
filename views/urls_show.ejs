@@ -16,6 +16,14 @@
       border:2px #457afa solid;
       border-radius:5px;
     }
+
+    .textField_url_common{
+        width: 300px; 
+        margin-right: 0.5em; 
+        padding: 6px;
+        border:2px #457afa solid;
+        border-radius:5px; 
+      }
   </style>
 </head>
 <body>
@@ -40,7 +48,7 @@
       </tr>
       <tr>
         <form method="POST" action="/urls/<%= shortURL %>">
-       New URL: <input type="text" name="longURL" placeholder="http://">
+       New URL: <input type="text" name="longURL" placeholder="http://" class="textField_url_common">
        <button type="Submit" class="btn_submit_show" >Submit</button>
         </form>
       </tr>

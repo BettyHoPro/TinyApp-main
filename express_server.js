@@ -52,8 +52,17 @@ app.post('/urls/:shortURL', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  res.cookie("username", req.body.username);
-  res.redirect('/urls');
+  for (let keyAsID in users) {
+    if (users[keyAsID].email === req.body.email) {
+      if (users[keyAsID].password === req.body.password) {
+        res.cookie("user_id", users[keyAsID].id);
+        res.redirect('/urls');
+      }
+      if (users[keyAsID].password !== req.body.password) {
+        res.send('Wrong password!');
+      }
+    }
+  }
 });
 
 app.post('/logout', (req, res) => {
