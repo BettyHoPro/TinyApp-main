@@ -7,16 +7,44 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>URL - TinyApp Example</title>
+  <style>
+    .btn_submit_show{
+      padding: 6px 18px;
+      color:white;
+      background-color:#457afa;
+      border:2px #457afa solid;
+      border-radius:5px;
+    }
+  </style>
 </head>
 <body>
   <%- include('partials/_header') %>
   <div class="card text-center">
     <div class="card-header"></div>
     <div class="card-body">
+      <table>
+      <tr>
       <h5 class="card-title">TinyURL for: <%= longURL %></h5>
+      </tr>
+      <tr>
       <p class="card-text">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>
+    </tr>
+   
+    </table>
     </div>
-    <div class="card-footer text-muted"></div>
+    
+    <div class="card-footer text-muted">
+      <tr>
+        <h2>Edit</h2>
+      </tr>
+      <tr>
+        <form method="POST" action="/urls/<%= shortURL %>">
+       New URL: <input type="text" name="longURL" placeholder="http://">
+       <button type="Submit" class="btn_submit_show" >Submit</button>
+        </form>
+      </tr>
+    </div>
+    
   </div>
 
   <!-- Bootstrap -->
