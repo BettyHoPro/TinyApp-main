@@ -36,6 +36,10 @@ const checkIfEmailExist = (email) => {
   return Object.keys(users).map(x => users[x].email).includes(email);
 };
 
+const checkIfPassWordsAreIdentical = (password) => {
+  return Object.keys(users).some(x => users[x].password === password);
+};
+
 // === post === //
 app.post('/urls', (req, res) => {
   const shortURL = generateRandomString();
@@ -56,17 +60,17 @@ app.post('/urls/:shortURL', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  for (let keyAsID in users) {
-    if (users[keyAsID].email === req.body.email) {
-      if (users[keyAsID].password === req.body.password) {
-        res.cookie("user_id", users[keyAsID].id);
-        res.redirect('/urls');
-      }
-      if (users[keyAsID].password !== req.body.password) {
-        res.send('Wrong password!');
-      }
+  const email = req.body.email;
+  const password = req.body.password;
+  if (checkIfEmailExist(email)) {
+    if (checkIfPassWordsAreIdentical(password)) {
+      let userID = Object.keys(users)[Object.keys(users).map(x => users[x].email).indexOf(email)];
+      res.cookie("user_id", userID);
+      res.redirect('/urls');
     }
+    res.sendStatus(403);
   }
+  res.sendStatus(403);
 });
 
 app.post('/logout', (req, res) => {
@@ -103,8 +107,6 @@ app.get('/urls', (req, res) => {
 app.get('/urls/new', (req, res) => {
   const templateVars = { user: users[req.cookies["user_id"]]};
   res.render("urls_new", templateVars);
- 
-  //res.render("urls_new");
 });
 
 app.get('/urls/:shortURL', (req, res) => {
