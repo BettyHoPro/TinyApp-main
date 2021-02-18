@@ -32,6 +32,9 @@ const generateRandomString = () => {
   return Math.random().toString(36).substr(2,6);
 };
 
+const checkIfEmailExist = (email) => {
+  return Object.keys(users).map(x => users[x].email).includes(email);
+};
 
 // === post === //
 app.post('/urls', (req, res) => {
@@ -72,8 +75,8 @@ app.post('/logout', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-  let checkIfEmailExist = Object.keys(users).map(x => users[x].email).includes(req.body.email);
-  if (req.body.email.length < 1 || req.body.password.length < 1 || checkIfEmailExist) {
+  //let checkIfEmailExist = Object.keys(users).map(x => users[x].email).includes(req.body.email);
+  if (req.body.email.length < 1 || req.body.password.length < 1 || checkIfEmailExist(req.body.email)) {
     res.sendStatus(400);
   }
   const userID = `user${generateRandomString(6)}RandomID`;
