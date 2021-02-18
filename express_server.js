@@ -66,7 +66,7 @@ const checkIfPassWordsAreIdentical = (password) => {
 //   return Object.keys(urlDatabase).filter(x => !urlDatabase[x].userID.indexOf(userID) && urlDatabase[x]);
 // };
 
-const urlsForUser = function(database, userID) {
+const urlsForUser = (database, userID) => {
   let idOwnURL = {};
   for (const shortURL in database) {
     if (database[shortURL].userID === userID) {
@@ -77,6 +77,12 @@ const urlsForUser = function(database, userID) {
   return idOwnURL;
 };
 
+const ifUrlBelongReviewer = (url, user) => {
+  if (url["userID"] === user['id']) {
+    return true;
+  }
+  return false;
+};
 // === post === //
 app.post('/urls', (req, res) => {
   const shortURL = generateRandomString();
@@ -91,12 +97,24 @@ app.post('/urls', (req, res) => {
 });
 
 app.post('/urls/:shortURL/delete', (req, res) => {
+  const reviewer = users[req.cookies["user_id"]];
+  const shortUrlOnIndex = urlDatabase[req.params.shortURL];
+  if (!reviewer || !shortUrlOnIndex || !ifUrlBelongReviewer(shortUrlOnIndex,reviewer)) {
+    console.log("Not permit");
+    return res.redirect('/urls');
+  }
   delete urlDatabase[req.params.shortURL];
   res.redirect('/urls');
 });
 
 app.post('/urls/:shortURL', (req, res) => {
   //const templateVars = { shortURL: req.params.shortURL, longURL: req.body.longURL };
+  const reviewer = users[req.cookies["user_id"]];
+  const shortUrlOnIndex = urlDatabase[req.params.shortURL];
+  if (!reviewer || !shortUrlOnIndex || !ifUrlBelongReviewer(shortUrlOnIndex,reviewer)) {
+    console.log("Not permit");
+    return res.redirect('/urls');
+  }
  
   urlDatabase[req.params.shortURL].longURL = req.body.longURL;
   res.redirect('/urls');
@@ -169,13 +187,21 @@ app.get('/urls/:shortURL', (req, res) => {
   // const userID = users[req.cookies["user_id"]];
   //const templateVars = { shortURL };
   //const templateVars = { shortURL: { id: shortURL, longURL, userID}};
-  console.log(users[req.cookies["user_id"]]);
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user: users[req.cookies["user_id"]]};
   if (!Object.keys(urlDatabase).includes(req.params.shortURL)) {
     res.sendStatus(404);
   }
   res.render('urls_show', templateVars);
 });
+
+app.get('/urls/:shortURL/delete', (req, res) => {
+  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user: users[req.cookies["user_id"]]};
+  if (!Object.keys(urlDatabase).includes(req.params.shortURL)) {
+    res.sendStatus(404);
+  }
+  res.redirect('/urls');
+});
+
 
 app.get('/u/:shortURL', (req, res) => {
   const longURL = urlDatabase[req.params.shortURL].longURL;
