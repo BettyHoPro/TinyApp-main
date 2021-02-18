@@ -49,7 +49,6 @@
               <td><%= url %></td>
               <td><%= urls[url].longURL %> </td>
               <% if (user) { %>
-                <%= user.id%>
                 <td><form method="GET" action="urls/<%=url%>"><input class="btn_edit_index" type="submit" value="Edit" ></form></td>
                 <td><form method="POST" action="urls/<%=url%>/delete"><input class="btn_delete_index" type="submit" value="Delete" ></form></td>
               <% } %>

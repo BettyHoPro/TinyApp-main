@@ -18,8 +18,8 @@ app.use(express.static('public'));
 
 const urlDatabase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
-  i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" },
-  adfrvs: { longURL: "https://www.amazon.ca", userID: "sdfc1w" }
+  i3BoGr: { longURL: "https://www.google.ca", userID: "sdfc1w" },
+  adfrvs: { longURL: "https://www.amazon.ca", userID: "aJ48lW" }
 };
 
 const users = {
@@ -60,22 +60,22 @@ const checkIfPassWordsAreIdentical = (password) => {
 };
 
 
-const urlsForUser = (userID) => {
-  // no idea why index of userID find is 0, or -1 for unfind.
-  return Object.keys(urlDatabase).filter(x => !urlDatabase[x].userID.indexOf(userID) && x);
-};
-
-// const urlsForUser = function(database, userID) {
-//   let userURLs = {};
-//   for (let url in database) {
-//     console.log(`database[url].userID : ${database[url].userID}`);
-//     console.log(`userID : ${userID.id}`);
-//     if (database[url].userID === userID) {
-//       userURLs[url] = { longURL: database[url].longURL, userID };
-//     }
-//   }
-//   return userURLs;
+// const urlsForUser = (userID) => {
+//   // no idea why index of userID find is 0, or -1 for unfind.
+//   //let userOwnUrls = {};
+//   return Object.keys(urlDatabase).filter(x => !urlDatabase[x].userID.indexOf(userID) && urlDatabase[x]);
 // };
+
+const urlsForUser = function(database, userID) {
+  let idOwnURL = {};
+  for (const shortURL in database) {
+    if (database[shortURL].userID === userID) {
+      idOwnURL[shortURL] = database[shortURL];
+      // different userURLs[url] = { longURL: database[url].longURL, userID };
+    }
+  }
+  return idOwnURL;
+};
 
 // === post === //
 app.post('/urls', (req, res) => {
@@ -97,6 +97,7 @@ app.post('/urls/:shortURL/delete', (req, res) => {
 
 app.post('/urls/:shortURL', (req, res) => {
   //const templateVars = { shortURL: req.params.shortURL, longURL: req.body.longURL };
+ 
   urlDatabase[req.params.shortURL].longURL = req.body.longURL;
   res.redirect('/urls');
 });
@@ -144,23 +145,7 @@ app.get('/urls', (req, res) => {
   if (!users[req.cookies["user_id"]]) {
     res.redirect("/login");
   }
-  //urlsForUser(urlDatabase,users[req.cookies["user_id"]]);
-  
-  // let idOwnURL = {};
-  // for (const shortURL in urlDatabase) {
-  //   if (urlDatabase[shortURL].userID === users[req.cookies["user_id"]]) {
-  //     idOwnURL[shortURL] = urlDatabase[shortURL];
-  //   }
-  // }
- 
-  // const userID = users[req.cookies["user_id"]];
-  // const templateVars = { urls: userID };
-  // const shortURL = req.params.shortURL;
-  // shortURL.longURL = urlDatabase[req.params.shortURL].longURL;
-  // shortURL.user = users[req.cookies["user_id"]];
-  //const templateVars = { shortURL };
-  // const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user: users[req.cookies["user_id"]] };
-  const templateVars = { urls: urlsForUser(users[req.cookies["user_id"]].id), user: users[req.cookies["user_id"]]};
+  const templateVars = { urls: urlsForUser(urlDatabase, users[req.cookies["user_id"]].id), user: users[req.cookies["user_id"]]};
   res.render('urls_index', templateVars);
   //===console.log(urlsForUser(urlDatabase,users[req.cookies["user_id"]]));
   //==console.log(templateVars);
@@ -184,6 +169,7 @@ app.get('/urls/:shortURL', (req, res) => {
   // const userID = users[req.cookies["user_id"]];
   //const templateVars = { shortURL };
   //const templateVars = { shortURL: { id: shortURL, longURL, userID}};
+  console.log(users[req.cookies["user_id"]]);
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user: users[req.cookies["user_id"]]};
   if (!Object.keys(urlDatabase).includes(req.params.shortURL)) {
     res.sendStatus(404);
