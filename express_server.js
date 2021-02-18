@@ -50,6 +50,11 @@ app.post('/urls', (req, res) => {
   const longURL = req.body.longURL;
   urlDatabase[shortURL] = { longURL, userID: req.cookies.user_id };
   res.redirect(`urls/${shortURL}`);
+  
+  // const shortURL = generateRandomString();
+  // urlDatabase[shortURL] = {longURL : req.body.longURL, userID: req.cookies['user_id']};
+  // res.redirect(/urls/${shortURL})
+  console.log(urlDatabase);
 });
 
 app.post('/urls/:shortURL/delete', (req, res) => {
@@ -83,7 +88,6 @@ app.post('/logout', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-  //let checkIfEmailExist = Object.keys(users).map(x => users[x].email).includes(req.body.email);
   if (req.body.email.length < 1 || req.body.password.length < 1 || checkIfEmailExist(req.body.email)) {
     res.sendStatus(400);
   }
@@ -118,20 +122,21 @@ app.get('/urls/new', (req, res) => {
   if (!users[req.cookies["user_id"]]) {
     res.redirect("/login");
   }
-  const shortURL = req.params.shortURL;
-  const longURL = urlDatabase[req.params.shortURL];
-  const userID = users[req.cookies["user_id"]];
-  const templateVars = { shortURL: { id: shortURL, longURL, userID}};
-  //const templateVars = { user: users[req.cookies["user_id"]]};
+  // const shortURL = req.params.shortURL;
+  // const longURL = urlDatabase[req.params.shortURL];
+  // const userID = users[req.cookies["user_id"]];
+  // const templateVars = { shortURL: { id: shortURL, longURL, userID}};
+  const templateVars = { user: users[req.cookies["user_id"]]};
   res.render("urls_new", templateVars);
 });
 
 app.get('/urls/:shortURL', (req, res) => {
-  const shortURL = req.params.shortURL;
-  const longURL = urlDatabase[req.params.shortURL];
-  const userID = users[req.cookies["user_id"]];
+  // const shortURL = req.params.shortURL;
+  // const longURL = urlDatabase[req.params.shortURL];
+  // const userID = users[req.cookies["user_id"]];
   //const templateVars = { shortURL };
-  const templateVars = { shortURL: { id: shortURL, longURL, userID}};
+  //const templateVars = { shortURL: { id: shortURL, longURL, userID}};
+ const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], user: users[req.cookies["user_id"]]};
   if (!Object.keys(urlDatabase).includes(req.params.shortURL)) {
     res.sendStatus(404);
   }
@@ -155,11 +160,12 @@ app.get("/register", (req, res) => {
   res.render('register', templateVars);
 });
 
-app.get('/login', (req, res) => {
-  // const shortURL = req.params.shortURL;
+// const shortURL = req.params.shortURL;
   // shortURL.longURL = urlDatabase[req.params.shortURL];
   // shortURL.user = users[req.cookies["user_id"]];
   // const templateVars = { shortURL };
+
+app.get('/login', (req, res) => {
   const templateVars = { user: users[req.cookies["user_id"]]};
   res.render('login', templateVars);
 });
