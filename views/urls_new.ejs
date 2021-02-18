@@ -17,13 +17,16 @@
         border:2px #457afa solid;
         border-radius:5px;
       }
+      .urlBlock-center {
+        justify-content: center;
+      }
   </style>
 </head>
 <body>
   <%- include('partials/_header') %>
-  <main style="margin: 1em;">
+  <main class="text-center card-body" style="margin: 1em;">
     <h3>Create TinyURL</h3>
-    <form class="form-inline" action="/urls" method="POST">
+    <form class="form-inline urlBlock-center" action="/urls" method="POST">
       <div class="form-group mb-2">
         <label for="longURL">Enter a URL: &#160</label>
         <input class="textField_url_common form-control" type="text" name="longURL" placeholder="http://" >
