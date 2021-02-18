@@ -65,6 +65,18 @@ const urlsForUser = (userID) => {
   return Object.keys(urlDatabase).filter(x => !urlDatabase[x].userID.indexOf(userID) && x);
 };
 
+// const urlsForUser = function(database, userID) {
+//   let userURLs = {};
+//   for (let url in database) {
+//     console.log(`database[url].userID : ${database[url].userID}`);
+//     console.log(`userID : ${userID.id}`);
+//     if (database[url].userID === userID) {
+//       userURLs[url] = { longURL: database[url].longURL, userID };
+//     }
+//   }
+//   return userURLs;
+// };
+
 // === post === //
 app.post('/urls', (req, res) => {
   const shortURL = generateRandomString();
@@ -75,7 +87,7 @@ app.post('/urls', (req, res) => {
   // const shortURL = generateRandomString();
   // urlDatabase[shortURL] = {longURL : req.body.longURL, userID: req.cookies['user_id']};
   // res.redirect(/urls/${shortURL})
-  console.log(urlDatabase);
+  //=====console.log(urlDatabase);
 });
 
 app.post('/urls/:shortURL/delete', (req, res) => {
@@ -114,7 +126,7 @@ app.post('/register', (req, res) => {
   }
   const userID = `user${generateRandomString(6)}RandomID`;
   users[userID] = {id: userID, email: req.body.email, password: req.body.password };
-  console.log(users);
+  //===console.log(users);
   res.cookie("user_id", userID);
   res.redirect('/urls');
 });
@@ -132,6 +144,15 @@ app.get('/urls', (req, res) => {
   if (!users[req.cookies["user_id"]]) {
     res.redirect("/login");
   }
+  //urlsForUser(urlDatabase,users[req.cookies["user_id"]]);
+  
+  // let idOwnURL = {};
+  // for (const shortURL in urlDatabase) {
+  //   if (urlDatabase[shortURL].userID === users[req.cookies["user_id"]]) {
+  //     idOwnURL[shortURL] = urlDatabase[shortURL];
+  //   }
+  // }
+ 
   // const userID = users[req.cookies["user_id"]];
   // const templateVars = { urls: userID };
   // const shortURL = req.params.shortURL;
@@ -139,9 +160,10 @@ app.get('/urls', (req, res) => {
   // shortURL.user = users[req.cookies["user_id"]];
   //const templateVars = { shortURL };
   // const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user: users[req.cookies["user_id"]] };
-  const templateVars = {  urls: urlDatabase, user: users[req.cookies["user_id"]]};
+  const templateVars = { urls: urlsForUser(users[req.cookies["user_id"]].id), user: users[req.cookies["user_id"]]};
   res.render('urls_index', templateVars);
-  console.log(templateVars);
+  //===console.log(urlsForUser(urlDatabase,users[req.cookies["user_id"]]));
+  //==console.log(templateVars);
 });
 
 app.get('/urls/new', (req, res) => {
