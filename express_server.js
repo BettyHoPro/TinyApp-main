@@ -18,7 +18,8 @@ app.use(express.static('public'));
 
 const urlDatabase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
-  i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
+  i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" },
+  2dfrvs: { longURL: "https://www.amazon.ca", userID: "sdfwcw" }
 };
 
 const users = {
@@ -31,7 +32,13 @@ const users = {
     id: "user2RandomID",
     email: "user2@example.com",
     password: "dishwasher-funk"
-  }
+  },
+  "aJ48lW": {
+    id: "aJ48lW",
+    email: "test@gmail.com",
+    password: "1234567"
+  },
+
 };
 
 // === reusable functions === //
@@ -74,7 +81,7 @@ app.post('/urls/:shortURL/delete', (req, res) => {
 
 app.post('/urls/:shortURL', (req, res) => {
   //const templateVars = { shortURL: req.params.shortURL, longURL: req.body.longURL };
-  urlDatabase[req.params.shortURL] = req.body.longURL;
+  urlDatabase[req.params.shortURL].longURL = req.body.longURL;
   res.redirect('/urls');
 });
 
@@ -118,6 +125,9 @@ app.get('/', (req, res) => {
 // });
 
 app.get('/urls', (req, res) => {
+  if (!users[req.cookies["user_id"]]) {
+    res.redirect("/login");
+  }
   // const userID = users[req.cookies["user_id"]];
   // const templateVars = { urls: userID };
   // const shortURL = req.params.shortURL;
@@ -125,7 +135,7 @@ app.get('/urls', (req, res) => {
   // shortURL.user = users[req.cookies["user_id"]];
   //const templateVars = { shortURL };
   // const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user: users[req.cookies["user_id"]] };
- const templateVars = {  urls: urlDatabase, user: users[req.cookies["user_id"]]};
+  const templateVars = {  urls: urlDatabase, user: users[req.cookies["user_id"]]};
   res.render('urls_index', templateVars);
   console.log(templateVars);
 });
