@@ -19,7 +19,7 @@ app.use(express.static('public'));
 const urlDatabase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
   i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" },
-  2dfrvs: { longURL: "https://www.amazon.ca", userID: "sdfwcw" }
+  adfrvs: { longURL: "https://www.amazon.ca", userID: "sdfc1w" }
 };
 
 const users = {
@@ -38,7 +38,11 @@ const users = {
     email: "test@gmail.com",
     password: "1234567"
   },
-
+  "sdfc1w": {
+    id: "sdfc1w",
+    email: "test2@gmail.com",
+    password: "1234567"
+  }
 };
 
 // === reusable functions === //
@@ -158,7 +162,7 @@ app.get('/urls/:shortURL', (req, res) => {
   // const userID = users[req.cookies["user_id"]];
   //const templateVars = { shortURL };
   //const templateVars = { shortURL: { id: shortURL, longURL, userID}};
-  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL], user: users[req.cookies["user_id"]]};
+  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user: users[req.cookies["user_id"]]};
   if (!Object.keys(urlDatabase).includes(req.params.shortURL)) {
     res.sendStatus(404);
   }
