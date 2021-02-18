@@ -71,14 +71,15 @@ app.post('/logout', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
+  let checkIfEmailExist = Object.keys(users).map(x => users[x].email).includes(req.body.email);
+  if (req.body.email.length < 1 || req.body.password.length < 1 || checkIfEmailExist) {
+    res.sendStatus(400);
+  }
   const userID = `user${generateRandomString(6)}RandomID`;
   users[userID] = {id: userID, email: req.body.email, password: req.body.password };
   console.log(users);
-  //const templateVars = {  urls: urlDatabase, username: users[userID].email};
   res.cookie("user_id", userID);
   res.redirect('/urls');
-  // generateRandomString()
-  // user2RandomID // user id
 });
 
 // ==== get ==== //
