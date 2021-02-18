@@ -18,6 +18,7 @@
 #navbarNavAltMarkup {
 justify-content: space-between;
 }
+
 </style>
 <header>
   <nav class="navbar navbar-expand-md navbar-dark bg-success">
@@ -48,11 +49,10 @@ justify-content: space-between;
             Logged In As: <%= user.email %> !&#160&#160<button type="submit" class="btn_login_header" >Logout</button>
           </form>
         <% } else { %>
-          <form action="/login" method="POST">
-            <input type="email" name="email" placeholder="Fill your email" class="input_username_header">
-            <input type="password" name="password" placeholder="Fill your password" class="input_username_header">
-            <button type="Submit" class="btn_login_header" >Login</button>
-          </form>
+          <div class="navbar-nav">
+         <a class="nav-item nav-link" href="/login">Login Account</a>
+         <a class="nav-item nav-link" href="/register">Register Account</a>
+        </div>
         <% } %>
         </td>
         </tr>

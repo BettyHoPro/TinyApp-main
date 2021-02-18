@@ -32,6 +32,7 @@ const generateRandomString = () => {
   return Math.random().toString(36).substr(2,6);
 };
 
+
 // === post === //
 app.post('/urls', (req, res) => {
   const shortURL = generateRandomString();
@@ -124,6 +125,11 @@ app.get('/u/:shortURL', (req, res) => {
 app.get("/register", (req, res) => {
   const templateVars = { user: users[req.cookies["user_id"]]};
   res.render('register', templateVars);
+});
+
+app.get('/login', (req, res) => {
+  const templateVars = { user: users[req.cookies["user_id"]]};
+  res.render('login', templateVars);
 });
 
 app.get('/urls.json',  (req, res) => {
