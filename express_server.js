@@ -9,10 +9,13 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 // === database === //
-// const urlDatabase = {
+
+// const urlDatabase = {
 //   "b2xVn2": "http://www.lighthouselabs.ca",
 //   "9sm5xK": "http://www.google.com"
 // };
+
+
 const urlDatabase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
   i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
@@ -36,12 +39,19 @@ const generateRandomString = () => {
   return Math.random().toString(36).substr(2,6);
 };
 
+
 const checkIfEmailExist = (email) => {
   return Object.keys(users).map(x => users[x].email).includes(email);
 };
 
 const checkIfPassWordsAreIdentical = (password) => {
   return Object.keys(users).some(x => users[x].password === password);
+};
+
+
+const urlsForUser = (userID) => {
+  // no idea why index of userID find is 0, or -1 for unfind.
+  return Object.keys(urlDatabase).filter(x => !urlDatabase[x].userID.indexOf(userID) && x);
 };
 
 // === post === //
