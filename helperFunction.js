@@ -1,17 +1,19 @@
+const bcrypt = require('bcrypt');
 // === reusable functions === //
 const generateRandomString = () => {
   return Math.random().toString(36).substr(2,6);
 };
 
-
-const checkIfEmailExist = (email) => {
-  return Object.keys(users).map(x => users[x].email).includes(email);
+// get userID by email
+const checkIfEmailExist = (email, database) => {
+  return Object.keys(database).map(x => database[x].email).includes(email) ;
 };
 
-const checkIfPassWordsAreIdentical = (password) => {
+
+const checkIfPassWordsAreIdentical = (password, database) => {
   // bcrypt.compareSync(password, hashedPassword)
   //                    initial   hased already in this case got from stored users obj database
-  return Object.keys(users).some(x => bcrypt.compareSync(password,users[x].password));
+  return Object.keys(database).some(x => bcrypt.compareSync(password,database[x].password));
 };
 
 

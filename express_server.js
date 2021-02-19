@@ -28,22 +28,22 @@ const users = {
   "userRandomID": {
     id: "userRandomID",
     email: "user@example.com",
-    password: "purple-monkey-dinosaur"
+    password: bcrypt.hashSync("purple-monkey-dinosaur",10)
   },
   "user2RandomID": {
     id: "user2RandomID",
     email: "user2@example.com",
-    password: "dishwasher-funk"
+    password: bcrypt.hashSync("dishwasher-funk",10)
   },
   "aJ48lW": {
     id: "aJ48lW",
     email: "test@gmail.com",
-    password: "1234567"
+    password: bcrypt.hashSync("1234567",10)
   },
   "sdfc1w": {
     id: "sdfc1w",
     email: "test2@gmail.com",
-    password: "1234567"
+    password: bcrypt.hashSync("1234567",10)
   }
 };
 
@@ -122,8 +122,8 @@ app.post('/urls/:shortURL', (req, res) => {
 app.post('/login', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
-  if (checkIfEmailExist(email)) {
-    if (checkIfPassWordsAreIdentical(password)) {
+  if (checkIfEmailExist(email, users)) {
+    if (checkIfPassWordsAreIdentical(password, users)) {
       let userID = Object.keys(users)[Object.keys(users).map(x => users[x].email).indexOf(email)];
       req.session.user_id = userID;
       res.redirect('/urls');
@@ -140,11 +140,11 @@ app.post('/logout', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-  if (req.body.email.length < 1 || req.body.password.length < 1 || checkIfEmailExist(req.body.email)) {
+  if (req.body.email.length < 1 || req.body.password.length < 1 || checkIfEmailExist(req.body.email, urlDatabase)) {
     res.sendStatus(400);
   }
   const hashedPassword = bcrypt.hashSync(req.body.password, 10);
-  const userID = `user${generateRandomString(6)}RandomID`;
+  const userID = generateRandomString(6);
   users[userID] = {id: userID, email: req.body.email, password: hashedPassword };
   console.log(users);
   req.session.user_id = userID;
