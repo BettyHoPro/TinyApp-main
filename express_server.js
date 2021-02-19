@@ -51,7 +51,7 @@ app.post('/urls', (req, res) => {
   const longURL = req.body.longURL;
   if (! req.session.user_id) {
     res.status(401).send("401 ERROR, Unauthorized!");
-  };
+  }
   urlDatabase[shortURL] = { longURL, userID: req.session.user_id };
   res.redirect(`urls/${shortURL}`);
 });
@@ -82,12 +82,12 @@ app.post('/login', (req, res) => {
   if (checkIfEmailExist(email, users)) {
     if (checkIfPassWordsAreIdentical(password, users)) {
       let userID = getUserByEmail(email, users);
-      req.session.user_id = userID;
+      req.session['user_id'] = userID;
       res.redirect('/urls');
     }
-    res.sendStatus(403);
+    res.status(403).send("403 ERROR, Forbidden");
   }
-  res.sendStatus(403);
+  res.status(403).send("403 ERROR, Forbidden");
 });
 
 app.post('/logout', (req, res) => {
@@ -98,13 +98,13 @@ app.post('/logout', (req, res) => {
 
 app.post('/register', (req, res) => {
   if (req.body.email.length < 1 || req.body.password.length < 1 || checkIfEmailExist(req.body.email, users)) {
-    res.sendStatus(400);
+    res.status(400).send("400 ERROR, Bad Request");
   }
   const hashedPassword = bcrypt.hashSync(req.body.password, 10);
   const userID = generateRandomString(6);
   users[userID] = {id: userID, email: req.body.email, password: hashedPassword };
   console.log(users);
-  req.session.user_id = userID;
+  req.session["user_id"] = userID;
   res.redirect('/urls');
 });
 
