@@ -124,6 +124,7 @@ app.get('/', (req, res) => {
 app.get('/urls', (req, res) => {
   if (!users[req.session["user_id"]]) {
     res.redirect("/login");
+ 
   }
   const templateVars = { urls: urlsForUser(urlDatabase, users[req.session["user_id"]].id), user: users[req.session["user_id"]]};
   res.render('urls_index', templateVars);
@@ -138,10 +139,10 @@ app.get('/urls/new', (req, res) => {
 });
 
 app.get('/urls/:shortURL', (req, res) => {
-  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user: users[req.session["user_id"]]};
   if (!Object.keys(urlDatabase).includes(req.params.shortURL)) {
-    res.sendStatus(404);
+    res.status(404).send("404 ERROR, Page Not Found");
   }
+  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user: users[req.session["user_id"]]};
   res.render('urls_show', templateVars);
 });
 
@@ -151,10 +152,10 @@ app.get('/urls/:shortURL/delete', (req, res) => {
 
 
 app.get('/u/:shortURL', (req, res) => {
-  const longURL = urlDatabase[req.params.shortURL].longURL;
   if (!Object.keys(urlDatabase).includes(req.params.shortURL)) {
-    res.render('urls_error');
+    res.status(404).send("404 ERROR, Page Not Found");
   }
+  const longURL = urlDatabase[req.params.shortURL].longURL;
   res.redirect(longURL);
 });
 
