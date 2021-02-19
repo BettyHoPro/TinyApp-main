@@ -4,7 +4,7 @@ const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
 const app = express();
 const PORT = 8080;
-const { generateRandomString, checkIfEmailExist, checkIfPassWordsAreIdentical, urlsForUser, ifUrlBelongReviewer } = require('./helperFunction');
+const { generateRandomString, checkIfEmailExist, checkIfPassWordsAreIdentical, urlsForUser, ifUrlBelongReviewer } = require('./helpers');
 
 // const password = "purple-monkey-dinosaur"; // found in the req.params object
 //const hashedPassword = bcrypt.hashSync(password, 10);
