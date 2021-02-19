@@ -141,6 +141,10 @@ app.get('/urls/:shortURL', (req, res) => {
     res.status(404).send("404 ERROR, Page Not Found");
     return;
   }
+   if (!ifUrlBelongReviewer(urlDatabase[req.params.shortURL], users[req.session["user_id"]])) {
+    res.status(401).send("401 ERROR, Unauthorized!");
+    return;
+  }
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user: users[req.session["user_id"]]};
   res.render('urls_show', templateVars);
 });
