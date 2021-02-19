@@ -9,8 +9,9 @@ Betty Ho
 ## Final Product
 
 !["Preview of TinyApp log in page"](https://github.com/BettyHoPro/TinyApp-main/blob/master/docs/tinyApp_login.png)
-!["Preview of TinyApp account member editing the Url page"](https://github.com/BettyHoPro/TinyApp-main/blob/master/docs/tinyApp_user_editUrl.png)
 !["Preview of TinyApp account member index page"](https://github.com/BettyHoPro/TinyApp-main/blob/master/docs/tinyApp_user_index.png)
+!["Preview of TinyApp account member editing the Url page"](https://github.com/BettyHoPro/TinyApp-main/blob/master/docs/tinyApp_user_editUrl.png)
+
 
 ## Dependencies
 
