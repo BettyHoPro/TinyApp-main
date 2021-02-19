@@ -1,8 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const bcrypt = require('bcrypt');
 const app = express();
 const PORT = 8080;
+
+// const password = "purple-monkey-dinosaur"; // found in the req.params object
+//const hashedPassword = bcrypt.hashSync(password, 10);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
@@ -56,7 +60,9 @@ const checkIfEmailExist = (email) => {
 };
 
 const checkIfPassWordsAreIdentical = (password) => {
-  return Object.keys(users).some(x => users[x].password === password);
+  // bcrypt.compareSync(password, hashedPassword)
+  //                    initial   hased already in this case got from stored users obj database
+  return Object.keys(users).some(x => bcrypt.compareSync(password,users[x].password));
 };
 
 
@@ -137,9 +143,10 @@ app.post('/register', (req, res) => {
   if (req.body.email.length < 1 || req.body.password.length < 1 || checkIfEmailExist(req.body.email)) {
     res.sendStatus(400);
   }
+  const hashedPassword = bcrypt.hashSync(req.body.password, 10);
   const userID = `user${generateRandomString(6)}RandomID`;
-  users[userID] = {id: userID, email: req.body.email, password: req.body.password };
-  //===console.log(users);
+  users[userID] = {id: userID, email: req.body.email, password: hashedPassword };
+  console.log(users);
   res.cookie("user_id", userID);
   res.redirect('/urls');
 });
