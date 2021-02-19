@@ -1,20 +1,21 @@
+// === imports === //
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
-const app = express();
-const PORT = 8080;
 const { generateRandomString, checkIfEmailExist, getUserByEmail, checkIfPassWordsAreIdentical, urlsForUser, ifUrlBelongReviewer } = require('./helpers');
 
+// === configure app === //
+const app = express();
+const PORT = 8080;
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieSession({
   name: 'session',
   keys: ['think app crush any second', 'tiny app heaven']
 }));
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
-// === database === //
 
+// === database === //
 const urlDatabase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
   i3BoGr: { longURL: "https://www.google.ca", userID: "sdfc1w" },
@@ -114,15 +115,10 @@ app.get('/', (req, res) => {
   const templateVars = { urls: urlsForUser(urlDatabase, users[req.session["user_id"]].id), user: users[req.session["user_id"]]};
   res.render('urls_index', templateVars);
 });
-// app.get("/hello", (req, res) => {
-//   const templateVars = { greeting: 'Hello World!' };
-//   res.render("hello_world", templateVars);
-// });
 
 app.get('/urls', (req, res) => {
   if (!users[req.session["user_id"]]) {
     res.redirect("/login");
- 
   }
   const templateVars = { urls: urlsForUser(urlDatabase, users[req.session["user_id"]].id), user: users[req.session["user_id"]]};
   res.render('urls_index', templateVars);
@@ -153,7 +149,6 @@ app.get('/urls/:shortURL/delete', (req, res) => {
   res.redirect('/urls');
 });
 
-
 app.get('/u/:shortURL', (req, res) => {
   if (!Object.keys(urlDatabase).includes(req.params.shortURL)) {
     res.status(404).send("404 ERROR, Page Not Found");
@@ -169,11 +164,6 @@ app.get("/register", (req, res) => {
   const templateVars = { user: users[req.session["user_id"]]};
   res.render('register', templateVars);
 });
-
-// const shortURL = req.params.shortURL;
-// shortURL.longURL = urlDatabase[req.params.shortURL];
-// shortURL.user = users[req.cookies["user_id"]];
-// const templateVars = { shortURL };
 
 app.get('/login', (req, res) => {
   if (users[req.session["user_id"]]) {
