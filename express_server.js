@@ -4,10 +4,7 @@ const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
 const app = express();
 const PORT = 8080;
-const { generateRandomString, checkIfEmailExist, checkIfPassWordsAreIdentical, urlsForUser, ifUrlBelongReviewer } = require('./helpers');
-
-// const password = "purple-monkey-dinosaur"; // found in the req.params object
-//const hashedPassword = bcrypt.hashSync(password, 10);
+const { generateRandomString, checkIfEmailExist, getUserByEmail, checkIfPassWordsAreIdentical, urlsForUser, ifUrlBelongReviewer } = require('./helpers');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieSession({
@@ -47,46 +44,6 @@ const users = {
   }
 };
 
-// // === reusable functions === //
-// const generateRandomString = () => {
-//   return Math.random().toString(36).substr(2,6);
-// };
-
-
-// const checkIfEmailExist = (email) => {
-//   return Object.keys(users).map(x => users[x].email).includes(email);
-// };
-
-// const checkIfPassWordsAreIdentical = (password) => {
-//   // bcrypt.compareSync(password, hashedPassword)
-//   //                    initial   hased already in this case got from stored users obj database
-//   return Object.keys(users).some(x => bcrypt.compareSync(password,users[x].password));
-// };
-
-
-// // const urlsForUser = (userID) => {
-// //   // no idea why index of userID find is 0, or -1 for unfind.
-// //   //let userOwnUrls = {};
-// //   return Object.keys(urlDatabase).filter(x => !urlDatabase[x].userID.indexOf(userID) && urlDatabase[x]);
-// // };
-
-// const urlsForUser = (database, userID) => {
-//   let idOwnURL = {};
-//   for (const shortURL in database) {
-//     if (database[shortURL].userID === userID) {
-//       idOwnURL[shortURL] = database[shortURL];
-//       // different userURLs[url] = { longURL: database[url].longURL, userID };
-//     }
-//   }
-//   return idOwnURL;
-// };
-
-// const ifUrlBelongReviewer = (url, user) => {
-//   if (url["userID"] === user['id']) {
-//     return true;
-//   }
-//   return false;
-// };
 
 // === post === //
 app.post('/urls', (req, res) => {
@@ -124,7 +81,7 @@ app.post('/login', (req, res) => {
   const password = req.body.password;
   if (checkIfEmailExist(email, users)) {
     if (checkIfPassWordsAreIdentical(password, users)) {
-      let userID = Object.keys(users)[Object.keys(users).map(x => users[x].email).indexOf(email)];
+      let userID = getUserByEmail(email, users);
       req.session.user_id = userID;
       res.redirect('/urls');
     }

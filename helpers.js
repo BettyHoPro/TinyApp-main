@@ -4,9 +4,14 @@ const generateRandomString = () => {
   return Math.random().toString(36).substr(2,6);
 };
 
-// get userID by email
+
 const checkIfEmailExist = (email, database) => {
   return Object.keys(database).map(x => database[x].email).includes(email) ;
+};
+
+const getUserByEmail = (email, database) => {
+  //return Object.keys(database).map(x => database[x].email).includes(email);
+  return Object.keys(database)[Object.keys(database).map(x => database[x].email).indexOf(email)];
 };
 
 
@@ -41,4 +46,4 @@ const ifUrlBelongReviewer = (url, user) => {
   return false;
 };
 
-module.exports = { generateRandomString, checkIfEmailExist, checkIfPassWordsAreIdentical, urlsForUser, ifUrlBelongReviewer };
+module.exports = { generateRandomString, checkIfEmailExist, checkIfPassWordsAreIdentical, getUserByEmail, urlsForUser, ifUrlBelongReviewer };
