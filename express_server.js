@@ -141,10 +141,6 @@ app.get('/urls/:shortURL', (req, res) => {
     res.status(401).send("401 ERROR, Unauthorized!");
     return;
   }
-  // if (!ifUrlBelongReviewer(req.params.shortURL, users[req.session["user_id"]])) {
-  //   res.status(401).send("401 ERROR, Unauthorized!");
-  //   return;
-  // }
   if (!Object.keys(urlDatabase).includes(req.params.shortURL)) {
     res.status(404).send("404 ERROR, Page Not Found");
     return;
