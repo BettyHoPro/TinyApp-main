@@ -110,7 +110,11 @@ app.post('/register', (req, res) => {
 
 // ==== get ==== //
 app.get('/', (req, res) => {
-  res.send('Hello!');
+  if (!users[req.session["user_id"]]) {
+    res.redirect("/login");
+  }
+  const templateVars = { urls: urlsForUser(urlDatabase, users[req.session["user_id"]].id), user: users[req.session["user_id"]]};
+  res.render('urls_index', templateVars);
 });
 // app.get("/hello", (req, res) => {
 //   const templateVars = { greeting: 'Hello World!' };
