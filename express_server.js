@@ -102,7 +102,6 @@ app.post('/register', (req, res) => {
   const hashedPassword = bcrypt.hashSync(req.body.password, 10);
   const userID = generateRandomString(6);
   users[userID] = {id: userID, email: req.body.email, password: hashedPassword };
-  console.log(users);
   req.session["user_id"] = userID;
   res.redirect('/urls');
 });
@@ -138,8 +137,17 @@ app.get('/urls/new', (req, res) => {
 });
 
 app.get('/urls/:shortURL', (req, res) => {
+  if (!users[req.session["user_id"]]) {
+    res.status(401).send("401 ERROR, Unauthorized!");
+    return;
+  }
+  // if (!ifUrlBelongReviewer(req.params.shortURL, users[req.session["user_id"]])) {
+  //   res.status(401).send("401 ERROR, Unauthorized!");
+  //   return;
+  // }
   if (!Object.keys(urlDatabase).includes(req.params.shortURL)) {
     res.status(404).send("404 ERROR, Page Not Found");
+    return;
   }
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL].longURL, user: users[req.session["user_id"]]};
   res.render('urls_show', templateVars);
