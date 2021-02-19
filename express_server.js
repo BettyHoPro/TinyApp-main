@@ -49,6 +49,9 @@ const users = {
 app.post('/urls', (req, res) => {
   const shortURL = generateRandomString();
   const longURL = req.body.longURL;
+  if (! req.session.user_id) {
+    res.status(401).send("401 ERROR, Unauthorized!");
+  };
   urlDatabase[shortURL] = { longURL, userID: req.session.user_id };
   res.redirect(`urls/${shortURL}`);
 });
