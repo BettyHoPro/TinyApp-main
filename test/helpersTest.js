@@ -1,6 +1,5 @@
 const { assert } = require('chai');
 
-const bcrypt = require('bcrypt');
 const { getUserByEmail } = require('../helpers.js');
 
 const testUsers = {
