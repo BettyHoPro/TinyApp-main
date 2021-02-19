@@ -6,7 +6,7 @@ const generateRandomString = () => {
 
 
 const checkIfEmailExist = (email, database) => {
-  return Object.keys(database).map(x => database[x].email).includes(email) ;
+  return Object.keys(database).map(x => database[x].email).includes(email);
 };
 
 const getUserByEmail = (email, database) => {

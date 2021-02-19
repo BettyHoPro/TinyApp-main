@@ -97,7 +97,7 @@ app.post('/logout', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-  if (req.body.email.length < 1 || req.body.password.length < 1 || checkIfEmailExist(req.body.email, urlDatabase)) {
+  if (req.body.email.length < 1 || req.body.password.length < 1 || checkIfEmailExist(req.body.email, users)) {
     res.sendStatus(400);
   }
   const hashedPassword = bcrypt.hashSync(req.body.password, 10);
