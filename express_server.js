@@ -60,7 +60,6 @@ app.post('/urls/:shortURL/delete', (req, res) => {
   const reviewer = users[req.session["user_id"]];
   const shortUrlOnIndex = urlDatabase[req.params.shortURL];
   if (!reviewer || !shortUrlOnIndex || !ifUrlBelongReviewer(shortUrlOnIndex,reviewer)) {
-    console.log("Not permit");
     return res.redirect('/urls');
   }
   delete urlDatabase[req.params.shortURL];
@@ -71,10 +70,8 @@ app.post('/urls/:shortURL', (req, res) => {
   const reviewer = users[req.session["user_id"]];
   const shortUrlOnIndex = urlDatabase[req.params.shortURL];
   if (!reviewer || !shortUrlOnIndex || !ifUrlBelongReviewer(shortUrlOnIndex,reviewer)) {
-    console.log("Not permit");
     return res.redirect('/urls');
   }
- 
   urlDatabase[req.params.shortURL].longURL = req.body.longURL;
   res.redirect('/urls');
 });
@@ -174,6 +171,9 @@ app.get("/register", (req, res) => {
 // const templateVars = { shortURL };
 
 app.get('/login', (req, res) => {
+  if (users[req.session["user_id"]]) {
+    res.redirect("/urls");
+  }
   const templateVars = { user: users[req.session["user_id"]]};
   res.render('login', templateVars);
 });
